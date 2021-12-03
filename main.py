@@ -3,8 +3,6 @@ import random
 import discord
 from discord.ext import commands
 
-TOKEN = "OTE0OTczMjI3MzMwMTc5MDgy.YaU1OA.hDf2DPLj3ARtd9852e7tfwpIoT0"
-
 PREFIX = '.'
 
 bot = commands.Bot(command_prefix=PREFIX)
@@ -37,4 +35,6 @@ if __name__ == "__main__":
                 print(e)
                 pass
 
-    bot.run(TOKEN)
+    with open(".token", "r") as fp:
+        token = fp.readline()
+        bot.run(token)
