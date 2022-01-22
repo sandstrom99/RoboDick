@@ -16,10 +16,10 @@ print("ctypes - Find opus:")
 a = ctypes.util.find_library("opus")
 print(a)
 
-print("Discord - Load Opus:")
-b = discord.opus.load_opus(a)
-print(b)
-
+try:
+    b = discord.opus.load_opus(a)
+except Exception as e:
+    print(e)
 print("Disord - Load Opus:")
 c = discord.opus.is_loaded()
 print(c)
@@ -108,8 +108,12 @@ class YTDLSource(discord.PCMVolumeTransformer):
         to_run = partial(ytdl.extract_info,
                          url=data['webpage_url'], download=False)
         data = await loop.run_in_executor(None, to_run)
+        try:
+            r = cls(discord.FFmpegPCMAudio(data['url']), data=data, requester=requester)
+        except Exception as e:
+            print(e)
 
-        return cls(discord.FFmpegPCMAudio(data['url']), data=data, requester=requester)
+        return r
 
 
 class MusicPlayer:
@@ -163,7 +167,7 @@ class MusicPlayer:
 
                 source.volume = self.volume
                 self.current = source
-                print(source)
+                print("isopus",source.is_opus)
                 self._guild.voice_client.play(
                     source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
                 embed = discord.Embed(
