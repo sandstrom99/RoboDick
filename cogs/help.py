@@ -34,25 +34,32 @@ class Help(commands.Cog):
         embed.add_field(name="\u200B", value="\u200B")
 
         embed.add_field(name="Play song",
-                        value="`play <url>`\n `p`,`sing`", inline=True)
+                        value="`play <url>`", inline=True)
         embed.add_field(name="Pause song", value="`pause`", inline=True)
         embed.add_field(name="Resume song", value="`resume`", inline=True)
+        embed.add_field(name="Stop song", value="`stop`", inline=True)
         embed.add_field(name="Skip song", value="`skip`", inline=True)
         embed.add_field(
-            name="Remove song", value="`remove <position in queue>`\n `rm`,`rem`", inline=True)
+            name="Remove song", value="`remove <position in queue>`", inline=True)
+        embed.add_field(name="Loop song",
+                        value="`loop`", inline=True)
         embed.add_field(name="Clear queue",
-                        value="`clear`\n `clr`", inline=True)
+                        value="`clear`", inline=True)
         embed.add_field(name="Show queue",
-                        value="`queue`\n `q`,`playlist`,`que`", inline=True)
+                        value="`queue`", inline=True)
+        embed.add_field(name="Shuffle queue",
+                        value="`shuffle`", inline=True)
+        embed.add_field(name="Loop song",
+                        value="`loop`", inline=True)
         embed.add_field(
-            name="Now playing", value="`playing`\n `np`,`song`,`current`,`currentsong`", inline=True)
+            name="Now playing", value="`now`", inline=True)
         embed.add_field(name="Change volume",
-                        value="`volume <percentage>`\n `v`,`vol`", inline=True)
+                        value="`volume <percentage>`", inline=True)
         embed.add_field(name="Kick the bot off the stage",
-                        value="`leave`\n `stop`,`dc`,`disconnect`,`bye`", inline=True)
+                        value="`leave`", inline=True)
 
         await ctx.message.author.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Help(bot))
+async def setup(bot):
+    await bot.add_cog(Help(bot))

@@ -100,5 +100,5 @@ class Stonk(commands.Cog):
         return discord.File("./stonk.png", filename="stonk.png")
 
 
-def setup(bot):
-    bot.add_cog(Stonk(bot))
+async def setup(bot):
+    await bot.add_cog(Stonk(bot))

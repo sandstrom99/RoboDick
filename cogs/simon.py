@@ -25,5 +25,5 @@ class Simon(commands.Cog):
             return await message.add_reaction("\U0001F60D")
 
 
-def setup(bot):
-    bot.add_cog(Simon(bot))
+async def setup(bot):
+    await bot.add_cog(Simon(bot))

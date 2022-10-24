@@ -12,5 +12,5 @@ class Clean(commands.Cog):
         await ctx.channel.purge(limit=amount)
 
 
-def setup(bot):
-    bot.add_cog(Clean(bot))
+async def setup(bot):
+    await bot.add_cog(Clean(bot))
