@@ -1,21 +1,23 @@
 import discord
+from os import getenv
 from discord.ext import commands
 import requests
 
-TOKEN = "RGAPI-0a5684b9-b049-4c64-96fe-a34e1b00e799"
+#TOKEN = "RGAPI-0a5684b9-b049-4c64-96fe-a34e1b00e799"
 
 
 class Lol(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.token = getenv("RIOT_API_TOKEN")
 
     def get_profile(self, region, name):
         if region == "eune":
             API_Riot = "https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + \
-                name + "?api_key=" + TOKEN
+                name + "?api_key=" + self.token
         elif region == "euw":
             API_Riot = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + \
-                name + "?api_key=" + TOKEN
+                name + "?api_key=" + self.token
         else:
             return None
 
@@ -34,10 +36,10 @@ class Lol(commands.Cog):
     def fetchRanks(self, region, id):
         if region == "eune":
             API_Riot = "https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + \
-                id + "?api_key=" + TOKEN
+                id + "?api_key=" + self.token
         elif region == "euw":
             API_Riot = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + \
-                id + "?api_key=" + TOKEN
+                id + "?api_key=" + self.token
         else:
             API_Riot = ""
         response = requests.get(API_Riot)

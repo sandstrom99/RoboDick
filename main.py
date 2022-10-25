@@ -12,7 +12,6 @@ PREFIX = '.'
 class RoboDick:
     def __init__(self):
         self.token = getenv("DISCORD_BOT_TOKEN")
-
         self.bot = commands.Bot(command_prefix=PREFIX,
                                 intents=discord.Intents.all())
         self.bot.remove_command("help")
