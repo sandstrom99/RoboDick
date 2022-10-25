@@ -1,13 +1,6 @@
-import asyncio
-import scathach
-import requests
-scathach.ass()
+from random import randint
 
-tags = {
-    "gif": "/gif",
-    "ass": ""
-}
-
-res = requests.get("https://scathach.redsplit.org/v3/nsfw/gif")
-json = res.json()
-print(json["url"])
+min_n = 4
+max_n = 10
+x = randint(min_n, max_n)
+print(x)
