@@ -23,9 +23,9 @@ class Help(commands.Cog):
 
         embed.add_field(name="Show OSRS stats",
                         value="`osrs <username>`", inline=True)
+        embed.add_field(name="Show LoL EUW stats", value="`lol <username>`")
         embed.add_field(name="Get random number",
                         value="`rand`, `rand <max>`, `rand <min> <max>`")
-        embed.add_field(name="\u200B", value="\u200B")
 
         embed.add_field(name="Stonks",
                         value="`stonk <symbol> <period> <interval>`", inline=True)

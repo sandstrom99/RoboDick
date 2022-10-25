@@ -42,15 +42,11 @@ class Lol(commands.Cog):
             API_Riot = ""
         response = requests.get(API_Riot)
         summonerJson = response.json()
-        calls = {0: "queueType", 1: "tier", 2: "rank",
-                 3: "leaguePoints", 4: "wins", 5: "losses"}
-        ranks = []
-        try:
-            for i in range(3):
-                for j in range(6):
-                    ranks.append(summonerJson[i][calls[j]])
-        except:
-            pass
+        ranks = {}
+
+        for r in summonerJson:
+            qt = r["queueType"]
+            ranks[qt] = r
         return ranks
 
     @commands.command()
@@ -67,30 +63,36 @@ class Lol(commands.Cog):
                 title=summoner[0], description=summoner[1], color=0xFFD500)
             embed.set_thumbnail(url=summoner[2])
 
-            # flex
-            try:
-                tmp = f"{ranks[1]} {ranks[2]} · LP:{ranks[3]} · Wins: {ranks[4]} · Losses: {ranks[5]}"
-                embed.add_field(name=ranks[0], value=tmp, inline=False)
-            except:
-                embed.add_field(name="Not found",
-                                value="Player hasn't any ranked status")
-
             # solo duo
-            try:
-                tmp = f"{ranks[7]} {ranks[8]} · LP:{ranks[9]} · Wins: {ranks[10]} · Losses: {ranks[11]}"
-                embed.add_field(name=ranks[6], value=tmp, inline=False)
-            except:
-                embed.add_field(name="Not found",
-                                value="Player hasn't any ranked status")
+            if "RANKED_SOLO_5x5" in ranks:
+                rank = ranks["RANKED_SOLO_5x5"]
+                tmp = '%s %s · LP: %d · Wins: %d · Losses: %d' % (
+                    rank["tier"], rank["rank"], rank["leaguePoints"], rank["wins"], rank["losses"])
+                embed.add_field(name="Ranked Solo/Duo",
+                                value=tmp, inline=False)
+            else:
+                embed.add_field(name="Ranked Solo/Duo",
+                                value="Player has no ranked status")
 
-            # tft
-            try:
-                tmp = f"{ranks[13]} {ranks[14]} · LP:{ranks[15]} · Wins: {ranks[16]} · Losses: {ranks[17]}"
-                embed.add_field(name=ranks[12], value=tmp, inline=False)
-            except:
-                embed.add_field(name="Not found",
-                                value="Player hasn't any ranked status")
+            # flex
+            if "RANKED_FLEX_SR" in ranks:
+                rank = ranks["RANKED_FLEX_SR"]
+                tmp = '%s %s · LP: %d · Wins: %d · Losses: %d' % (
+                    rank["tier"], rank["rank"], rank["leaguePoints"], rank["wins"], rank["losses"])
+                embed.add_field(name="Ranked Flex", value=tmp, inline=False)
+            else:
+                embed.add_field(name="Ranked Flex",
+                                value="Player has no ranked status")
 
+            # TFT
+            if "RANKED_TFT_DOUBLE_UP" in ranks:
+                rank = ranks["RANKED_TFT_DOUBLE_UP"]
+                tmp = '%s %s · LP: %d · Wins: %d · Losses: %d' % (
+                    rank["tier"], rank["rank"], rank["leaguePoints"], rank["wins"], rank["losses"])
+                embed.add_field(name="Ranked TFT", value=tmp, inline=False)
+            else:
+                embed.add_field(name="Ranked TFT",
+                                value="Player has no ranked status")
             await ctx.channel.send(embed=embed)
 
 
