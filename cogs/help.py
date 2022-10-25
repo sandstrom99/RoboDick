@@ -12,13 +12,19 @@ class Help(commands.Cog):
 
         embed = discord.Embed(
             title="Robo Dick Help",
-            description="Commands and aliases for Robo Dick",
+            description="Commands and aliases for Robo Dick. All commands starts with `.`",
             colour=discord.Colour.purple()
         )
 
         embed.add_field(name="Clean messages",
-                        value="`clean <amount>\n\n`", inline=True)
-        embed.add_field(name="\u200B", value="\u200B")
+                        value="`clean <amount>`", inline=True)
+        embed.add_field(name="Show meme", value="`meme`")
+        embed.add_field(name="Show NSFW", value="`nsfw`")
+
+        embed.add_field(name="Show OSRS stats",
+                        value="`osrs <username>`", inline=True)
+        embed.add_field(name="Get random number",
+                        value="`rand`, `rand <max>`, `rand <min> <max>`")
         embed.add_field(name="\u200B", value="\u200B")
 
         embed.add_field(name="Stonks",
@@ -27,11 +33,6 @@ class Help(commands.Cog):
             name="Periods", value="`1d`,`5d`,`1mo`,`3mo`,`6mo`,`1y`,`2y`,`5y`,`10y`,`ytd`,`max`")
         embed.add_field(
             name="Intervals", value="`1m`,`2m`,`5m`,`15m`,`30m`,`60m`,`90m`,`1h`,`1d`,`5d`,`1wk`,`1mo`,`3mo`")
-
-        embed.add_field(name="Show OSRS stats",
-                        value="`osrs <username>`\n\n", inline=True)
-        embed.add_field(name="\u200B", value="\u200B")
-        embed.add_field(name="\u200B", value="\u200B")
 
         embed.add_field(name="Play song",
                         value="`play <url>`", inline=True)
