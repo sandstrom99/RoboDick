@@ -3,8 +3,6 @@ from os import getenv
 from discord.ext import commands
 import requests
 
-#TOKEN = "RGAPI-0a5684b9-b049-4c64-96fe-a34e1b00e799"
-
 
 class Lol(commands.Cog):
     def __init__(self, bot):
