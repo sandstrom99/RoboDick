@@ -198,6 +198,12 @@ class VoiceState:
     def __del__(self):
         self.audio_player.cancel()
 
+    def reset(self):
+        self.next = asyncio.Event()
+        self.songs = SongQueue()
+        self.audio_player.cancel()
+        self.audio_player = self.bot.loop.create_task(self.audio_player_task())
+
     @property
     def loop(self):
         return self._loop
@@ -300,6 +306,7 @@ class Music(commands.Cog):
             return
 
         ctx.voice_state.voice = await destination.connect()
+        ctx.voice_state.reset()
 
     @commands.command(name='summon')
     @commands.has_permissions(manage_guild=True)
