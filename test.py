@@ -1,6 +1,10 @@
-from random import randint
+import imdb
 
-min_n = 4
-max_n = 10
-x = randint(min_n, max_n)
-print(x)
+
+try:
+    ia = imdb.Cinemagoer()
+    search = "matrix"
+    movies = ia.search_movie(search)
+    print(movies)
+except imdb.IMDbError as e:
+    print(e)
