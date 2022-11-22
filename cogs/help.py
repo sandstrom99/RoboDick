@@ -23,7 +23,7 @@ class Help(commands.Cog):
 
         embed.add_field(name="Show OSRS stats",
                         value="`osrs <username>`", inline=True)
-        embed.add_field(name="Show LoL EUW stats", value="`lol <username>`")
+        embed.add_field(name="Show AI Image", value="`ai <request>`")
         embed.add_field(name="Get random number",
                         value="`rand`, `rand <max>`, `rand <min> <max>`")
 

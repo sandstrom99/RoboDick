@@ -96,8 +96,8 @@ class Stonk(commands.Cog):
                     ]
                 )
 
-        fig.write_image("./stonk.png")
-        return discord.File("./stonk.png", filename="stonk.png")
+        fig.write_image("./img/stonk.png")
+        return discord.File("./img/stonk.png", filename="stonk.png")
 
 
 async def setup(bot):
