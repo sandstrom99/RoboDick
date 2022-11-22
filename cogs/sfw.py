@@ -6,6 +6,7 @@ import requests
 import uuid
 
 IMG_PATH = "./img/sfw/"
+SFW_CHANNEL_NAME = "sfw-img-requests"
 
 
 class Sfw(commands.Cog):
@@ -23,7 +24,7 @@ class Sfw(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         channel_name = message.channel.name
-        if channel_name == "not-so-safe-channel" and len(message.attachments) > 0:
+        if channel_name == SFW_CHANNEL_NAME and len(message.attachments) > 0:
             attachment = message.attachments[0]
             url = attachment.url
             img_name = attachment.filename
