@@ -39,7 +39,6 @@ class AI(commands.Cog):
 
     @commands.command()
     async def ai(self, ctx, *, prompt: str):
-        self.prompt = prompt
         ETA = int(time.time() + 60)
         ETA_msg = await ctx.send(f"Generating images - ETA: <t:{ETA}:R>")
         async with aiohttp.request("POST", "https://backend.craiyon.com/generate", json={"prompt": prompt}) as resp:
@@ -52,6 +51,7 @@ class AI(commands.Cog):
             cv.imwrite("./img/ai_grid.png", img_grid)
             await ETA_msg.delete()
             img_msg = await ctx.send(content=f"Generated images of '{prompt}'", file=discord.File("./img/ai_grid.png", "generated_images.png"))
+            self.prompt = prompt
             for emoji in number_emojis:
                 await img_msg.add_reaction(emoji)
 

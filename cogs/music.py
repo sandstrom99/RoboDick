@@ -3,6 +3,7 @@ import functools
 import itertools
 import math
 import random
+import time
 
 import discord
 import youtube_dl
@@ -270,6 +271,7 @@ class Music(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.voice_states = {}
+        self.disconnected = False
 
     def get_voice_state(self, ctx: commands.Context):
         state = self.voice_states.get(ctx.guild.id)
@@ -305,6 +307,7 @@ class Music(commands.Cog):
             await ctx.voice_state.voice.move_to(destination)
             return
 
+        self.disconnected = False
         ctx.voice_state.voice = await destination.connect()
         ctx.voice_state.reset()
 
@@ -503,6 +506,15 @@ class Music(commands.Cog):
             if ctx.voice_client.channel != ctx.author.voice.channel:
                 raise commands.CommandError(
                     'Bot is already in a voice channel.')
+
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if self.bot.user == member and after.channel is None and not self.disconnected:
+            voice = await before.channel.connect()
+            voice.play(discord.FFmpegPCMAudio("disconnect_audio.mp3"))
+            time.sleep(5)
+            self.disconnected = True
+            await voice.disconnect()
 
 
 async def setup(bot):
