@@ -62,7 +62,7 @@ class AI(commands.Cog):
             img = self.images[index]
             img = self.img_to_np(img)
             cv.imwrite("./img/ai_img.png", img)
-            await reaction.message.channel.send(content=f"AI Image {index+1}", file=discord.File("./img/ai_img.png", "generated_image.png"))
+            await reaction.message.channel.send(content=f"'{self.prompt}' | Image {index+1}", file=discord.File("./img/ai_img.png", "generated_image.png"))
 
 
 async def setup(bot):

@@ -9,6 +9,7 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
+from gtts import gTTS
 
 # Silence useless bug reports messages
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -302,6 +303,7 @@ class Music(commands.Cog):
     async def _join(self, ctx: commands.Context):
         """Joins a voice channel."""
 
+        ctx.voice_state.reset()
         destination = ctx.author.voice.channel
         if ctx.voice_state.voice:
             await ctx.voice_state.voice.move_to(destination)
@@ -309,7 +311,6 @@ class Music(commands.Cog):
 
         self.disconnected = False
         ctx.voice_state.voice = await destination.connect()
-        ctx.voice_state.reset()
 
     @commands.command(name='summon')
     @commands.has_permissions(manage_guild=True)
@@ -495,6 +496,36 @@ class Music(commands.Cog):
                 await ctx.voice_state.songs.put(song)
                 await ctx.send('Enqueued {}'.format(str(source)))
 
+    @commands.command(name='tts')
+    async def _tts(self, ctx: commands.Context, *, search: str):
+        await ctx.message.delete()
+        if not ctx.voice_state.voice:
+            await ctx.invoke(self._join)
+
+        if ctx.voice_state.is_playing:
+            ctx.voice_state.voice.stop()
+        ctx.voice_state.reset()
+
+        await self._playtts("en", self.get_voice_state(ctx).voice, search)
+
+    @commands.command(name='ttsda')
+    async def _ttsda(self, ctx: commands.Context, *, search: str):
+        await ctx.message.delete()
+        if not ctx.voice_state.voice:
+            await ctx.invoke(self._join)
+
+        if ctx.voice_state.is_playing:
+            ctx.voice_state.voice.stop()
+        ctx.voice_state.reset()
+        await self._playtts("da", self.get_voice_state(ctx).voice, search)
+
+    async def _playtts(self, language: str, voice, *text):
+        search = " ".join(text)
+        sound = gTTS(text=search, lang=language, slow=False)
+        sound.save("tts-audio.mp3")
+        source = await discord.FFmpegOpusAudio.from_probe("tts-audio.mp3", method="fallback")
+        voice.play(source)
+
     @_join.before_invoke
     @_play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
@@ -511,8 +542,9 @@ class Music(commands.Cog):
     async def on_voice_state_update(self, member, before, after):
         if self.bot.user == member and after.channel is None and not self.disconnected:
             voice = await before.channel.connect()
-            voice.play(discord.FFmpegPCMAudio("disconnect_audio.mp3"))
-            time.sleep(5)
+            await self._playtts("da", voice, "Vi ses tabere")
+
+            time.sleep(2)
             self.disconnected = True
             await voice.disconnect()
 
