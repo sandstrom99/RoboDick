@@ -25,17 +25,17 @@ class Sfw(commands.Cog):
     async def on_message(self, message):
         channel_name = message.channel.name
         if channel_name == SFW_CHANNEL_NAME and len(message.attachments) > 0 and message.author != self.bot.user:
-            attachment = message.attachments[0]
-            url = attachment.url
-            img_name = attachment.filename
-            img_extention = img_name.split(".")[1]
-            if img_extention == "jpg" or img_extention == "png":
-                img_data = requests.get(url).content
-                img_path = f"{IMG_PATH}{uuid.uuid1().hex}.{img_extention}"
-                with open(img_path, "wb") as handler:
-                    handler.write(img_data)
+            for attachment in message.attatchment:
+                url = attachment.url
+                img_name = attachment.filename
+                img_extention = img_name.split(".")[1]
+                if img_extention in ["jpg", "jpeg", "png"]:
+                    img_data = requests.get(url).content
+                    img_path = f"{IMG_PATH}{uuid.uuid1().hex}.{img_extention}"
+                    with open(img_path, "wb") as handler:
+                        handler.write(img_data)
 
-                await message.add_reaction("\U0001F44C")
+                    await message.add_reaction("\U0001F44C")
 
 
 async def setup(bot):

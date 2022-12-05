@@ -1,0 +1,16 @@
+aiohttp
+asyncio
+async-timeout
+discord.py
+gTTS
+IMDbPY
+kaleido
+numpy 
+opencv-python 
+plotly
+pybase64
+python-dotenv
+python-osrsapi
+requests
+yfinance
+youtube_dl

@@ -35,9 +35,9 @@ class RoboDick:
         await self.init_cogs()
 
         await self.bot.change_presence(activity=discord.Game(name=".help"))
-        with open("./img/avatar.png", "rb") as fp:
-            img = fp.read()
-            await self.bot.user.edit(avatar=img)
+        # with open("./img/avatar.png", "rb") as fp:
+        #    img = fp.read()
+        #    await self.bot.user.edit(avatar=img)
 
     async def on_message(self, message):
         if message.author.bot:
