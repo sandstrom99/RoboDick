@@ -35,7 +35,7 @@ class Sfw(commands.Cog):
                     with open(img_path, "wb") as handler:
                         handler.write(img_data)
 
-                    await message.add_reaction("\U0001F44C")
+            await message.add_reaction("\U0001F44C")
 
 
 async def setup(bot):
