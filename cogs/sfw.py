@@ -25,7 +25,7 @@ class Sfw(commands.Cog):
     async def on_message(self, message):
         channel_name = message.channel.name
         if channel_name == SFW_CHANNEL_NAME and len(message.attachments) > 0 and message.author != self.bot.user:
-            for attachment in message.attachment:
+            for attachment in message.attachments:
                 url = attachment.url
                 img_name = attachment.filename
                 img_extention = img_name.split(".")[1]
