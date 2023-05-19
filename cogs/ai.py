@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import aiohttp
 import time
 from io import BytesIO
@@ -50,7 +50,7 @@ class AI(commands.Cog):
                 1500, 1500), interpolation=cv.INTER_NEAREST)
             cv.imwrite("./img/ai_grid.png", img_grid)
             await ETA_msg.delete()
-            img_msg = await ctx.send(content=f"Generated images of '{prompt}'", file=discord.File("./img/ai_grid.png", "generated_images.png"))
+            img_msg = await ctx.send(content=f"Generated images of '{prompt}'", file=nextcord.File("./img/ai_grid.png", "generated_images.png"))
             self.prompt = prompt
             for emoji in number_emojis:
                 await img_msg.add_reaction(emoji)
@@ -62,8 +62,8 @@ class AI(commands.Cog):
             img = self.images[index]
             img = self.img_to_np(img)
             cv.imwrite("./img/ai_img.png", img)
-            await reaction.message.channel.send(content=f"'{self.prompt}' | Image {index+1}", file=discord.File("./img/ai_img.png", "generated_image.png"))
+            await reaction.message.channel.send(content=f"'{self.prompt}' | Image {index+1}", file=nextcord.File("./img/ai_img.png", "generated_image.png"))
 
 
-async def setup(bot):
-    await bot.add_cog(AI(bot))
+def setup(bot):
+    bot.add_cog(AI(bot))

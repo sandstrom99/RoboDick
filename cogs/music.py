@@ -5,14 +5,14 @@ import math
 import random
 import time
 
-import discord
-import youtube_dl
+import nextcord
+import yt_dlp
 from async_timeout import timeout
-from discord.ext import commands
+from nextcord.ext import commands
 from gtts import gTTS
 
 # Silence useless bug reports messages
-youtube_dl.utils.bug_reports_message = lambda: ''
+yt_dlp.utils.bug_reports_message = lambda: ''
 
 
 class VoiceError(Exception):
@@ -23,7 +23,7 @@ class YTDLError(Exception):
     pass
 
 
-class YTDLSource(discord.PCMVolumeTransformer):
+class YTDLSource(nextcord.PCMVolumeTransformer):
     YTDL_OPTIONS = {
         'format': 'bestaudio/best',
         'extractaudio': True,
@@ -45,9 +45,9 @@ class YTDLSource(discord.PCMVolumeTransformer):
         'options': '-vn',
     }
 
-    ytdl = youtube_dl.YoutubeDL(YTDL_OPTIONS)
+    ytdl = yt_dlp.YoutubeDL(YTDL_OPTIONS)
 
-    def __init__(self, ctx: commands.Context, source: discord.FFmpegPCMAudio, *, data: dict, volume: float = 0.5):
+    def __init__(self, ctx: commands.Context, source: nextcord.FFmpegPCMAudio, *, data: dict, volume: float = 0.5):
         super().__init__(source, volume)
 
         self.requester = ctx.author
@@ -116,7 +116,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
                     raise YTDLError(
                         'Couldn\'t retrieve any matches for `{}`'.format(webpage_url))
 
-        return cls(ctx, discord.FFmpegPCMAudio(info['url'], **cls.FFMPEG_OPTIONS), data=info)
+        return cls(ctx, nextcord.FFmpegPCMAudio(info['url'], **cls.FFMPEG_OPTIONS), data=info)
 
     @staticmethod
     def parse_duration(duration: int):
@@ -145,10 +145,10 @@ class Song:
         self.requester = source.requester
 
     def create_embed(self):
-        embed = (discord.Embed(title='Now playing',
+        embed = (nextcord.Embed(title='Now playing',
                                description='```css\n{0.source.title}\n```'.format(
                                    self),
-                               color=discord.Color.blurple())
+                               color=nextcord.Color.blurple())
                  .add_field(name='Duration', value=self.source.duration)
                  .add_field(name='Requested by', value=self.requester.mention)
                  .add_field(name='Uploader', value='[{0.source.uploader}]({0.source.uploader_url})'.format(self))
@@ -314,7 +314,7 @@ class Music(commands.Cog):
 
     @commands.command(name='summon')
     @commands.has_permissions(manage_guild=True)
-    async def _summon(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
+    async def _summon(self, ctx: commands.Context, *, channel: nextcord.VoiceChannel = None):
         """Summons the bot to a voice channel.
         If no channel was specified, it joins your channel.
         """
@@ -436,7 +436,7 @@ class Music(commands.Cog):
             queue += '`{0}.` [**{1.source.title}**]({1.source.url})\n'.format(
                 i + 1, song)
 
-        embed = (discord.Embed(description='**{} tracks:**\n\n{}'.format(len(ctx.voice_state.songs), queue))
+        embed = (nextcord.Embed(description='**{} tracks:**\n\n{}'.format(len(ctx.voice_state.songs), queue))
                  .set_footer(text='Viewing page {}/{}'.format(page, pages)))
         await ctx.send(embed=embed)
 
@@ -523,7 +523,7 @@ class Music(commands.Cog):
         search = " ".join(text)
         sound = gTTS(text=search, lang=language, slow=False)
         sound.save("tts-audio.mp3")
-        source = await discord.FFmpegOpusAudio.from_probe("tts-audio.mp3", method="fallback")
+        source = await nextcord.FFmpegOpusAudio.from_probe("tts-audio.mp3", method="fallback")
         voice.play(source)
 
     @_join.before_invoke
@@ -549,5 +549,5 @@ class Music(commands.Cog):
             await voice.disconnect()
 
 
-async def setup(bot):
-    await bot.add_cog(Music(bot))
+def setup(bot):
+    bot.add_cog(Music(bot))

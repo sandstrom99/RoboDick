@@ -1,7 +1,6 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import requests
-
 
 class Meme(commands.Cog):
     def __init__(self, bot):
@@ -9,7 +8,7 @@ class Meme(commands.Cog):
 
     @commands.command()
     async def meme(self, ctx):
-        res = requests.get("https://meme-api.herokuapp.com/gimme")
+        res = requests.get("https://meme-api.com/gimme")
         json = res.json()
 
         url = json["url"]
@@ -18,13 +17,12 @@ class Meme(commands.Cog):
         subreddit = json["subreddit"]
         link = json["postLink"]
 
-        embed = discord.Embed(title=title, color=discord.Colour.blue())
+        embed = nextcord.Embed(title=title, color=nextcord.Colour.blue())
         embed.set_image(url=url)
         embed.add_field(name="Subreddit", value=subreddit)
         embed.add_field(name="Poster", value=poster)
         embed.add_field(name="Post link", value=link)
         await ctx.send(embed=embed)
 
-
-async def setup(bot):
-    await bot.add_cog(Meme(bot))
+def setup(bot):
+    bot.add_cog(Meme(bot))

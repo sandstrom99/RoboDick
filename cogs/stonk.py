@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import locale
 import yfinance as yf
 import yfinance.shared as shared
@@ -24,9 +24,9 @@ class Stonk(commands.Cog):
         img = self.create_img(
             symbol, period=period, interval=interval)
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title=today_data["Name"],
-            colour=discord.Colour.blue()
+            colour=nextcord.Colour.blue()
         )
 
         embed.add_field(name="Open", value=today_data["Open"], inline=True)
@@ -36,8 +36,7 @@ class Stonk(commands.Cog):
         embed.add_field(name="Volume", value=today_data["Volume"], inline=True)
         embed.add_field(name="\u200B", value="\u200B")
 
-        embed.set_author(name=symbol,
-                         icon_url=today_data["Logo"])
+        embed.set_author(name=symbol)
 
         embed.set_image(url="attachment://stonk.png")
 
@@ -64,7 +63,7 @@ class Stonk(commands.Cog):
             "Low": "%.2f" % data["Low"][0],
             "Close": "%.2f" % data["Close"][0],
             "Volume": volume_formatted,
-            "Logo": ticker.info["logo_url"],
+            #"Logo": ticker.info["logo_url"],
             "Name": ticker.info["shortName"]
         }
 
@@ -97,8 +96,8 @@ class Stonk(commands.Cog):
                 )
 
         fig.write_image("./img/stonk.png")
-        return discord.File("./img/stonk.png", filename="stonk.png")
+        return nextcord.File("./img/stonk.png", filename="stonk.png")
 
 
-async def setup(bot):
-    await bot.add_cog(Stonk(bot))
+def setup(bot):
+    bot.add_cog(Stonk(bot))

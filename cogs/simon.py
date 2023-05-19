@@ -1,22 +1,22 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import os
 import random
+import utils.image
 
 IMG_PATH = "./img/simon/"
-
 
 class Simon(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.datasource = utils.image.ImageDatasource(IMG_PATH)
 
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.content.lower() == "simon":
-            files = os.listdir(IMG_PATH)
-            random_image = random.choice(files)
+            random_image = self.datasource.get_random_path()
 
-            file = discord.File(IMG_PATH + random_image)
+            file = nextcord.File(random_image)
             text = "Here's a picture of Simon"
             return await message.channel.send(text, file=file)
 
@@ -24,5 +24,5 @@ class Simon(commands.Cog):
             return await message.add_reaction("\U0001F60D")
 
 
-async def setup(bot):
-    await bot.add_cog(Simon(bot))
+def setup(bot):
+    bot.add_cog(Simon(bot))

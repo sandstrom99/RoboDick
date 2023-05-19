@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 from osrs_api.const import SKILLS
 from osrs_api import Hiscores
 import locale
@@ -18,11 +18,11 @@ class OSRS(commands.Cog):
         total_level = user.total_level
         rank = user.rank
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="OSRS Stats: " + username,
             description="Total XP: " +
             str(total_xp) + ", Rank: " + str(total_level),
-            colour=discord.Colour.green()
+            colour=nextcord.Colour.green()
         )
 
         embed.add_field(name="Attack",       value=user.skills["attack"].level)
@@ -69,5 +69,5 @@ class OSRS(commands.Cog):
         await ctx.channel.send(embed=embed)
 
 
-async def setup(bot):
-    await bot.add_cog(OSRS(bot))
+def setup(bot):
+    bot.add_cog(OSRS(bot))

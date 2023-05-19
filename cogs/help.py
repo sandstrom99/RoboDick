@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 
 
 class Help(commands.Cog):
@@ -10,10 +10,10 @@ class Help(commands.Cog):
     async def help(self, ctx, amount: int = 1):
         await ctx.message.delete()
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="Robo Dick Help",
             description="Commands and aliases for Robo Dick. All commands starts with `.`",
-            colour=discord.Colour.purple()
+            colour=nextcord.Colour.purple()
         )
 
         embed.add_field(name="Clean messages",
@@ -62,5 +62,5 @@ class Help(commands.Cog):
         await ctx.message.author.send(embed=embed)
 
 
-async def setup(bot):
-    await bot.add_cog(Help(bot))
+def setup(bot):
+    bot.add_cog(Help(bot))

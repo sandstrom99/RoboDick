@@ -1,4 +1,4 @@
-from discord.ext import commands
+from nextcord.ext import commands
 from random import randint
 
 
@@ -22,5 +22,5 @@ class Rand(commands.Cog):
         await ctx.channel.send(f"Random number between {n1} and {n2}: {x}")
 
 
-async def setup(bot):
-    await bot.add_cog(Rand(bot))
+def setup(bot):
+    bot.add_cog(Rand(bot))

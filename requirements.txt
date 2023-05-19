@@ -1,7 +1,7 @@
 aiohttp
 asyncio
 async-timeout
-discord.py
+nextcord.py
 gTTS
 IMDbPY
 kaleido

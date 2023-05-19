@@ -1,4 +1,4 @@
-from discord.ext import commands
+from nextcord.ext import commands
 
 
 class Clean(commands.Cog):
@@ -12,5 +12,5 @@ class Clean(commands.Cog):
         await ctx.channel.purge(limit=amount)
 
 
-async def setup(bot):
-    await bot.add_cog(Clean(bot))
+def setup(bot):
+    bot.add_cog(Clean(bot))

@@ -1,4 +1,4 @@
-from discord.ext import commands
+from nextcord.ext import commands
 import requests
 
 
@@ -15,5 +15,5 @@ class EightBall(commands.Cog):
         await ctx.send(answer)
 
 
-async def setup(bot):
-    await bot.add_cog(EightBall(bot))
+def setup(bot):
+    bot.add_cog(EightBall(bot))

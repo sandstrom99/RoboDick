@@ -1,9 +1,10 @@
 import os
 import random
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import requests
 import uuid
+import utils.image
 
 IMG_PATH = "./img/sfw/"
 SFW_CHANNEL_NAME = "sfw-img-requests"
@@ -12,14 +13,24 @@ SFW_CHANNEL_NAME = "sfw-img-requests"
 class Sfw(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.datasource = utils.image.ImageDatasource(IMG_PATH)
 
     @commands.command()
-    async def sfw(self, ctx):
-        files = os.listdir(IMG_PATH)
-        random_image = random.choice(files)
+    async def sfw(self, ctx, count=1):
+        if count > 9:
+            return await ctx.channel.send(content="Too many pictures man. Max is 9")
 
-        file = discord.File(IMG_PATH + random_image)
-        return await ctx.channel.send(file=file)
+        files: list[nextcord.File]= []
+        for i in range(count):
+            random_image = self.datasource.get_random_path()
+            file = nextcord.File(random_image)
+            files.append(file)
+        return await ctx.channel.send(files=files)
+
+    @commands.command()
+    async def sfwcount(self, ctx):
+        count = self.datasource.count()
+        return await ctx.channel.send(content="SFW Image Count: %d" % count)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -38,5 +49,5 @@ class Sfw(commands.Cog):
             await message.add_reaction("\U0001F44C")
 
 
-async def setup(bot):
-    await bot.add_cog(Sfw(bot))
+def setup(bot):
+    bot.add_cog(Sfw(bot))

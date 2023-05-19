@@ -1,5 +1,6 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
+import yt_dlp
 import imdb
 
 
@@ -32,5 +33,5 @@ class Movie(commands.Cog):
             await ctx.channel.send(url)
 
 
-async def setup(bot):
-    await bot.add_cog(Movie(bot))
+def setup(bot):
+    bot.add_cog(Movie(bot))

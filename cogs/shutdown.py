@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import sys
 
 SHUTDOWN_PASSWORD = "Yeet1337"
@@ -25,5 +25,5 @@ class Shutdown(commands.Cog):
             await ctx.channel.send("Don't fucking shut me down you piece of shit")
 
 
-async def setup(bot):
-    await bot.add_cog(Shutdown(bot))
+def setup(bot):
+    bot.add_cog(Shutdown(bot))
