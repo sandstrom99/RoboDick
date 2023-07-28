@@ -1,12 +1,17 @@
-import asyncio
+import sys
 import os
 from os import getenv
 from dotenv import load_dotenv
-import random
+import logging
 import nextcord
 from nextcord.ext import commands
 
 PREFIX = '.'
+logger = logging.getLogger('nextcord')
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 class RoboDick:
     def __init__(self):

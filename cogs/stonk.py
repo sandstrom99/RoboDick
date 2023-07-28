@@ -12,8 +12,9 @@ class Stonk(commands.Cog):
         locale.setlocale(locale.LC_ALL, '')
 
     @commands.command()
-    async def stonk(self, ctx, symbol, period="1mo", interval="1d"):
+    async def stonk(self, ctx, symbol='', period="1mo", interval="1d"):
         print(symbol, period, interval)
+        
         symbol = symbol.upper()
 
         if not self.ticker_exists(symbol):

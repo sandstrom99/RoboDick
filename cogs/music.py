@@ -482,6 +482,8 @@ class Music(commands.Cog):
         A list of these sites can be found here: https://rg3.github.io/youtube-dl/supportedsites.html
         """
 
+        print(search)
+
         if not ctx.voice_state.voice:
             await ctx.invoke(self._join)
 
@@ -538,16 +540,6 @@ class Music(commands.Cog):
                 raise commands.CommandError(
                     'Bot is already in a voice channel.')
 
-    @commands.Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
-        if self.bot.user == member and after.channel is None and not self.disconnected:
-            voice = await before.channel.connect()
-            await self._playtts("da", voice, "Vi ses tabere")
-
-            time.sleep(2)
-            self.disconnected = True
-            await voice.disconnect()
-
-
 def setup(bot):
-    bot.add_cog(Music(bot))
+    pass
+    #bot.add_cog(Music(bot))
